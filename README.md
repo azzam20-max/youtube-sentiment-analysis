@@ -20,5 +20,23 @@ Hasil analisis dapat diunduh dalam format **Excel (.xlsx)**.
 ```bash
 git clone https://github.com/username/repo-name.git
 cd repo-name
+```
 
 ###2️⃣ Buat Virtual Environment (Opsional tapi Disarankan)
+```bash
+python -m venv env
+# Windows
+env\Scripts\activate
+# Mac/Linux
+source env/bin/activate
+```
+###3️⃣ Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+###▶️ Menjalankan Aplikasi di Lokal
+```bash
+streamlit run streamlit_app.py
+http://localhost:8501
+```
