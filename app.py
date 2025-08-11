@@ -2,105 +2,97 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
-from youtube_comment_downloader import YoutubeCommentDownloader
-from transformers import pipeline
 import nltk
 from nltk.corpus import stopwords
-import re
-import io
+from youtube_comment_downloader import YoutubeCommentDownloader
+from transformers import pipeline
 
-# Cache NLTK stopwords
-@st.cache_data
-def get_stopwords():
-    nltk.download('stopwords')
-    return set(stopwords.words('indonesian') + stopwords.words('english'))
+# Download stopwords sekali saja
+nltk.download('stopwords', quiet=True)
 
-# Cache sentiment model
+# Cache model sentiment agar tidak load ulang
 @st.cache_resource
 def load_model():
-    return pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+    return pipeline("sentiment-analysis")
 
-# Download YouTube comments
+# Cache stopwords agar tidak load ulang
+@st.cache_resource
+def load_stopwords():
+    return set(stopwords.words('indonesian') + stopwords.words('english'))
+
+# Cache download komentar
 @st.cache_data
-def fetch_comments(video_url, limit=50):
+def get_youtube_comments(url, max_comments=50):
     downloader = YoutubeCommentDownloader()
     comments = []
-    try:
-        for comment in downloader.get_comments_from_url(video_url, sort_by='top'):
-            comments.append(comment["text"])
-            if len(comments) >= limit:
-                break
-    except Exception as e:
-        st.error(f"Gagal mengambil komentar: {e}")
+    for comment in downloader.get_comments_from_url(url, sort_by=0):
+        comments.append(comment['text'])
+        if len(comments) >= max_comments:
+            break
     return comments
 
-# Bersihkan teks
-def clean_text(text, stop_words):
-    text = re.sub(r"http\S+|www\S+|https\S+", "", text)
-    text = re.sub(r"[^a-zA-Z\s]", "", text)
-    text = text.lower()
-    text = " ".join([word for word in text.split() if word not in stop_words])
-    return text
+# Analisis komentar
+def analyze_comments(comments, model):
+    results = model(comments)
+    df = pd.DataFrame({
+        "Comment": comments,
+        "Label": [r['label'] for r in results],
+        "Score": [r['score'] for r in results]
+    })
+    return df
 
-# Buat WordCloud
-def create_wordcloud(text):
-    wc = WordCloud(width=800, height=400, background_color="white").generate(text)
-    fig, ax = plt.subplots(figsize=(10, 5))
-    ax.imshow(wc, interpolation="bilinear")
-    ax.axis("off")
-    return fig
+# Buat word cloud
+def generate_wordcloud(comments, stop_words):
+    text = " ".join(comments).lower()
+    wc = WordCloud(
+        stopwords=stop_words,
+        background_color="white",
+        width=800,
+        height=400
+    ).generate(text)
+    return wc
 
-# Streamlit UI
-st.set_page_config(page_title="YouTube Sentiment Analysis", layout="wide")
+# ==== Streamlit UI ====
 st.title("🎯 YouTube Sentiment Analysis")
-st.write("Masukkan URL video YouTube untuk menganalisis sentimen komentar.")
+st.write("Masukkan URL video YouTube untuk analisis komentar dan visualisasi sentimen.")
 
-video_url = st.text_input("URL Video YouTube", placeholder="https://www.youtube.com/watch?v=xxxxxxx")
-limit = st.slider("Jumlah komentar yang dianalisis", 10, 200, 50)
+# Input URL YouTube
+youtube_url = st.text_input("🔗 Masukkan URL YouTube:", "")
 
-if st.button("🔍 Analisis"):
-    if video_url:
-        stop_words = get_stopwords()
-        model = load_model()
-        
-        comments = fetch_comments(video_url, limit)
-        if not comments:
-            st.warning("Tidak ada komentar yang ditemukan.")
-        else:
-            cleaned_comments = [clean_text(c, stop_words) for c in comments]
-            results = model(cleaned_comments)
+# Slider jumlah komentar
+max_comments = st.slider("Jumlah komentar yang dianalisis", 10, 200, 50)
 
-            df = pd.DataFrame({
-                "Comment": comments,
-                "Cleaned": cleaned_comments,
-                "Sentiment": [r['label'] for r in results],
-                "Score": [r['score'] for r in results]
-            })
+if st.button("🚀 Jalankan Analisis") and youtube_url:
+    with st.spinner("Mengunduh komentar & memproses..."):
+        try:
+            comments = get_youtube_comments(youtube_url, max_comments)
+            if not comments:
+                st.error("Tidak ada komentar ditemukan.")
+            else:
+                model = load_model()
+                stop_words = load_stopwords()
+                df = analyze_comments(comments, model)
 
-            st.subheader("📊 Hasil Analisis Sentimen")
-            st.dataframe(df)
+                # Tampilkan tabel hasil
+                st.subheader("📋 Hasil Analisis Sentimen")
+                st.dataframe(df)
 
-            # Pie chart
-            sentiment_counts = df['Sentiment'].value_counts()
-            fig, ax = plt.subplots()
-            ax.pie(sentiment_counts, labels=sentiment_counts.index, autopct='%1.1f%%')
-            ax.axis("equal")
-            st.pyplot(fig)
+                # Grafik distribusi
+                st.subheader("📊 Distribusi Sentimen")
+                fig, ax = plt.subplots()
+                df['Label'].value_counts().plot(kind='bar', ax=ax, color=['green', 'red'])
+                plt.xticks(rotation=0)
+                st.pyplot(fig)
 
-            # WordCloud
-            st.subheader("☁️ WordCloud")
-            text_all = " ".join(df["Cleaned"])
-            st.pyplot(create_wordcloud(text_all))
+                # Word Cloud
+                st.subheader("☁ Word Cloud")
+                wc = generate_wordcloud(comments, stop_words)
+                fig_wc, ax_wc = plt.subplots()
+                ax_wc.imshow(wc, interpolation='bilinear')
+                ax_wc.axis("off")
+                st.pyplot(fig_wc)
 
-            # Download Excel
-            output = io.BytesIO()
-            with pd.ExcelWriter(output, engine='openpyxl') as writer:
-                df.to_excel(writer, index=False)
-            st.download_button(
-                label="📥 Download Hasil (Excel)",
-                data=output.getvalue(),
-                file_name="sentiment_results.xlsx",
-                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            )
-    else:
-        st.error("Masukkan URL video terlebih dahulu!")
+        except Exception as e:
+            st.error(f"Terjadi kesalahan: {e}")
+elif youtube_url == "":
+    st.info("Silakan masukkan URL video YouTube terlebih dahulu.")
