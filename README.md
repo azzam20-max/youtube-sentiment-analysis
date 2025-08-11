@@ -1,26 +1,24 @@
-# 🎯 YouTube Sentiment Analysis
+# 🎯 YouTube Sentiment Analysis - Bahasa Indonesia
 
-Proyek ini menganalisis sentimen komentar YouTube menggunakan **Python** dan **Natural Language Processing (NLP)**.  
-Dengan ini, Anda dapat mengetahui apakah komentar bersifat positif, negatif, atau netral.
+Aplikasi Streamlit untuk **mengambil komentar YouTube tanpa API key**, menganalisis sentimen menggunakan model **Indonesian RoBERTa** dari Hugging Face, serta menampilkan hasil dalam bentuk **tabel, pie chart, dan word cloud**.  
+Hasil analisis dapat diunduh dalam format **Excel (.xlsx)**.
 
-## 📌 Fitur
-- Mengambil komentar dari video YouTube menggunakan **YouTube Data API v3**
-- Membersihkan teks (preprocessing) seperti menghapus tanda baca, angka, dan stopwords
-- Analisis sentimen menggunakan **TextBlob** atau model NLP lain
-- Visualisasi hasil analisis dalam bentuk grafik
-- Mendukung ekspor hasil ke file CSV
+---
 
-## 🛠️ Teknologi yang Digunakan
-- **Python 3.x**
-- **YouTube Data API v3**
-- **Pandas**
-- **TextBlob / NLTK**
-- **Matplotlib / Seaborn**
-- **Jupyter Notebook** (opsional)
+## 🚀 Fitur
+- Ambil komentar dari video YouTube tanpa API key.
+- Analisis sentimen bahasa Indonesia menggunakan model `w11wo/indonesian-roberta-base-sentiment-classifier`.
+- Visualisasi **pie chart** distribusi sentimen.
+- **Word Cloud** untuk kata-kata yang sering muncul.
+- Ekspor hasil ke file Excel dan unduh langsung.
 
-## 📦 Instalasi
+---
 
-1. **Clone repository**
-   ```bash
-   git clone https://github.com/username/youtube-sentiment-analysis.git
-   cd youtube-sentiment-analysis
+## 📦 Instalasi Lokal
+
+### 1️⃣ Clone Repository
+```bash
+git clone https://github.com/username/repo-name.git
+cd repo-name
+
+###2️⃣ Buat Virtual Environment (Opsional tapi Disarankan)
