@@ -1,8 +1,8 @@
-youtube-comment-downloader
-transformers
-pandas
-matplotlib
-wordcloud
-nltk
-openpyxl
-torch
+youtube-comment-downloader==0.1.68
+transformers==4.42.4
+pandas==2.2.2
+matplotlib==3.9.2
+wordcloud==1.9.3
+nltk==3.9.1
+openpyxl==3.1.5
+torch==2.4.0
