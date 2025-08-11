@@ -44,3 +44,4 @@ Pastikan sudah menginstal:
     ```bash
     streamlit run app.py
     ```
+Local URL: http://localhost:8501
