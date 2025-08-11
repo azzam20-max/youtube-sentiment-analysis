@@ -1,87 +1,106 @@
-# ============================================
-# 2️⃣ Import Library
-# ============================================
-from youtube_comment_downloader import YoutubeCommentDownloader
-from transformers import pipeline
+import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from wordcloud import WordCloud
+from youtube_comment_downloader import YoutubeCommentDownloader
+from transformers import pipeline
 import nltk
-import re
-
-# Download stopwords NLTK
-nltk.download('stopwords')
 from nltk.corpus import stopwords
+import re
+import io
 
-# ============================================
-# 3️⃣ Fungsi Bersih Teks
-# ============================================
-def clean_text(text):
-    text = re.sub(r"http\S+", "", text)  # hapus URL
-    text = re.sub(r"[^a-zA-Z\s]", "", text)  # hapus simbol/angka
-    text = text.lower().strip()
+# Cache NLTK stopwords
+@st.cache_data
+def get_stopwords():
+    nltk.download('stopwords')
+    return set(stopwords.words('indonesian') + stopwords.words('english'))
+
+# Cache sentiment model
+@st.cache_resource
+def load_model():
+    return pipeline("sentiment-analysis", model="distilbert-base-uncased-finetuned-sst-2-english")
+
+# Download YouTube comments
+@st.cache_data
+def fetch_comments(video_url, limit=50):
+    downloader = YoutubeCommentDownloader()
+    comments = []
+    try:
+        for comment in downloader.get_comments_from_url(video_url, sort_by='top'):
+            comments.append(comment["text"])
+            if len(comments) >= limit:
+                break
+    except Exception as e:
+        st.error(f"Gagal mengambil komentar: {e}")
+    return comments
+
+# Bersihkan teks
+def clean_text(text, stop_words):
+    text = re.sub(r"http\S+|www\S+|https\S+", "", text)
+    text = re.sub(r"[^a-zA-Z\s]", "", text)
+    text = text.lower()
+    text = " ".join([word for word in text.split() if word not in stop_words])
     return text
 
-# ============================================
-# 4️⃣ Ambil Komentar dari YouTube (Tanpa API Key)
-# ============================================
-video_url = "https://youtu.be/6deJ_lSHnYg"  # GANTI link video YouTube di sini
-max_comments = None  # None = ambil semua, angka = batas jumlah komentar
+# Buat WordCloud
+def create_wordcloud(text):
+    wc = WordCloud(width=800, height=400, background_color="white").generate(text)
+    fig, ax = plt.subplots(figsize=(10, 5))
+    ax.imshow(wc, interpolation="bilinear")
+    ax.axis("off")
+    return fig
 
-downloader = YoutubeCommentDownloader()
-comments_gen = downloader.get_comments_from_url(video_url, sort_by=0)  # 0=Top, 1=Newest
+# Streamlit UI
+st.set_page_config(page_title="YouTube Sentiment Analysis", layout="wide")
+st.title("🎯 YouTube Sentiment Analysis")
+st.write("Masukkan URL video YouTube untuk menganalisis sentimen komentar.")
 
-comments_list = []
-for i, comment in enumerate(comments_gen):
-    if max_comments is not None and i >= max_comments:
-        break
-    comments_list.append(comment['text'])
+video_url = st.text_input("URL Video YouTube", placeholder="https://www.youtube.com/watch?v=xxxxxxx")
+limit = st.slider("Jumlah komentar yang dianalisis", 10, 200, 50)
 
-print(f"✅ Berhasil mengambil {len(comments_list)} komentar.")
+if st.button("🔍 Analisis"):
+    if video_url:
+        stop_words = get_stopwords()
+        model = load_model()
+        
+        comments = fetch_comments(video_url, limit)
+        if not comments:
+            st.warning("Tidak ada komentar yang ditemukan.")
+        else:
+            cleaned_comments = [clean_text(c, stop_words) for c in comments]
+            results = model(cleaned_comments)
 
-# ============================================
-# 5️⃣ Analisis Sentimen
-# ============================================
-MODEL_NAME = "w11wo/indonesian-roberta-base-sentiment-classifier"  # Model Sentiment Indonesia
-sentiment_analyzer = pipeline("sentiment-analysis", model=MODEL_NAME)
+            df = pd.DataFrame({
+                "Comment": comments,
+                "Cleaned": cleaned_comments,
+                "Sentiment": [r['label'] for r in results],
+                "Score": [r['score'] for r in results]
+            })
 
-results = []
-for c in comments_list:
-    sentiment = sentiment_analyzer(c)[0]
-    results.append({
-        "komentar": c,
-        "sentimen": sentiment["label"],
-        "skor": round(sentiment["score"], 3)
-    })
+            st.subheader("📊 Hasil Analisis Sentimen")
+            st.dataframe(df)
 
-df = pd.DataFrame(results)
-print(df.head())
+            # Pie chart
+            sentiment_counts = df['Sentiment'].value_counts()
+            fig, ax = plt.subplots()
+            ax.pie(sentiment_counts, labels=sentiment_counts.index, autopct='%1.1f%%')
+            ax.axis("equal")
+            st.pyplot(fig)
 
-# ============================================
-# 6️⃣ Visualisasi Pie Chart
-# ============================================
-sentiment_counts = df["sentimen"].value_counts()
-fig, ax = plt.subplots()
-ax.pie(sentiment_counts, labels=sentiment_counts.index, autopct="%1.1f%%", startangle=90)
-ax.axis("equal")
-plt.title("Distribusi Sentimen Komentar YouTube")
-plt.show()
+            # WordCloud
+            st.subheader("☁️ WordCloud")
+            text_all = " ".join(df["Cleaned"])
+            st.pyplot(create_wordcloud(text_all))
 
-# ============================================
-# 7️⃣ Word Cloud
-# ============================================
-stop_words = set(stopwords.words("indonesian"))
-all_text = " ".join([clean_text(c) for c in df["komentar"]])
-all_text = " ".join([word for word in all_text.split() if word not in stop_words])
-
-wordcloud = WordCloud(width=800, height=400, background_color="white").generate(all_text)
-plt.figure(figsize=(10, 5))
-plt.imshow(wordcloud, interpolation="bilinear")
-plt.axis("off")
-plt.show()
-
-# ============================================
-# 8️⃣ Simpan ke Excel
-# ============================================
-df.to_excel("hasil_sentiment.xlsx", index=False)
-print("💾 Hasil disimpan ke hasil_sentiment.xlsx")
+            # Download Excel
+            output = io.BytesIO()
+            with pd.ExcelWriter(output, engine='openpyxl') as writer:
+                df.to_excel(writer, index=False)
+            st.download_button(
+                label="📥 Download Hasil (Excel)",
+                data=output.getvalue(),
+                file_name="sentiment_results.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            )
+    else:
+        st.error("Masukkan URL video terlebih dahulu!")
