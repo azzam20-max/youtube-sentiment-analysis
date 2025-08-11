@@ -38,5 +38,6 @@ pip install -r requirements.txt
 ▶️ Menjalankan Aplikasi di Lokal
 ```bash
 streamlit run streamlit_app.py
-http://localhost:8501
 ```
+http://localhost:8501
+
