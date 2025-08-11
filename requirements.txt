@@ -1,0 +1,8 @@
+streamlit
+youtube-comment-downloader
+transformers
+pandas
+matplotlib
+wordcloud
+nltk
+openpyxl
