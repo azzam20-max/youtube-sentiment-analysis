@@ -1,43 +1,22 @@
-# 🎯 YouTube Sentiment Analysis - Bahasa Indonesia
+🎯 YouTube Sentiment Analysis
+Aplikasi ini menganalisis sentimen komentar pada video YouTube menggunakan Hugging Face Transformers dan menampilkan hasilnya dalam bentuk tabel, grafik distribusi, dan word cloud.
 
-Aplikasi Streamlit untuk **mengambil komentar YouTube tanpa API key**, menganalisis sentimen menggunakan model **Indonesian RoBERTa** dari Hugging Face, serta menampilkan hasil dalam bentuk **tabel, pie chart, dan word cloud**.  
-Hasil analisis dapat diunduh dalam format **Excel (.xlsx)**.
 
----
+✨ Fitur
+Input URL YouTube langsung dari halaman web.
 
-## 🚀 Fitur
-- Ambil komentar dari video YouTube tanpa API key.
-- Analisis sentimen bahasa Indonesia menggunakan model `w11wo/indonesian-roberta-base-sentiment-classifier`.
-- Visualisasi **pie chart** distribusi sentimen.
-- **Word Cloud** untuk kata-kata yang sering muncul.
-- Ekspor hasil ke file Excel dan unduh langsung.
+Analisis sentimen komentar menggunakan model transformers.
 
----
+Visualisasi distribusi sentimen (positive/negative).
 
-## 📦 Instalasi Lokal
+Word Cloud untuk kata-kata yang paling sering muncul.
 
-1️⃣ Clone Repository
-```bash
-git clone https://github.com/username/repo-name.git
-cd repo-name
-```
+Auto-cache model & stopwords agar lebih cepat dijalankan di cloud.
 
-2️⃣ Buat Virtual Environment (Opsional tapi Disarankan)
-```bash
-python -m venv env
-# Windows
-env\Scripts\activate
-# Mac/Linux
-source env/bin/activate
-```
-3️⃣ Install Dependencies
-```bash
-pip install -r requirements.txt
-```
+📦 Persyaratan
+Pastikan sudah menginstal:
 
-▶️ Menjalankan Aplikasi di Lokal
-```bash
-streamlit run streamlit_app.py
-```
-http://localhost:8501
+Python 3.8 – 3.11
+
+pip (Python package manager)
 
