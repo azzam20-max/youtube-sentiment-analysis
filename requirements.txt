@@ -1,9 +1,8 @@
 streamlit==1.37.0
-pandas==2.2.2
+pandas==2.2.1
 matplotlib==3.9.0
 wordcloud==1.9.3
 nltk==3.8.1
-youtube-comment-downloader==0.1.70
+youtube-comment-downloader==0.1.69
 transformers==4.41.2
-torch==2.3.0
-tokenizers==0.19.1
+tensorflow==2.16.1
