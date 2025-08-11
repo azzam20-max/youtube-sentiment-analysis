@@ -48,22 +48,16 @@ Local URL: http://localhost:8501
 
 ## ☁ Deploy ke Streamlit Cloud
 1. **Push project ke GitHub**
-   Pastikan semua file (app.py, requirements.txt, dll) sudah ada di repo.
+- Pastikan semua file (app.py, requirements.txt, dll) sudah ada di repo.
 
-Buka Streamlit Cloud
+2. **Buka Streamlit Cloud**
+- Login menggunakan akun GitHub.
 
-Login menggunakan akun GitHub.
+3. **Klik "New app"**
+- Pilih repository GitHub project.
+- Pilih branch (misalnya main).
+- File path: app.py
 
-Klik "New app"
-
-Pilih repository GitHub project.
-
-Pilih branch (misalnya main).
-
-File path: app.py
-
-Deploy
-
-Klik tombol Deploy.
-
-Tunggu proses instalasi dan aplikasi akan langsung berjalan di cloud.
+4. **Deploy**
+- Klik tombol Deploy.
+- Tunggu proses instalasi dan aplikasi akan langsung berjalan di cloud.
