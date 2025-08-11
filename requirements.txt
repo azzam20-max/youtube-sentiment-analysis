@@ -1,9 +1,9 @@
-streamlit==1.38.0
-youtube-comment-downloader==0.1.68
-transformers==4.42.4
+streamlit==1.37.0
 pandas==2.2.2
-matplotlib==3.9.2
+matplotlib==3.9.1
 wordcloud==1.9.3
-nltk==3.9.1
-openpyxl==3.1.5
-torch
+nltk==3.8.1
+transformers==4.42.4
+torch==2.3.1
+google-api-python-client==2.137.0
+regex==2024.7.24
