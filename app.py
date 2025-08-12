@@ -74,7 +74,7 @@ def generate_wordcloud(comments, stop_words):
     return wc
 
 # ==== UI Streamlit ====
-st.title("🎯 YouTube Sentiment Analysis (Multilingual - MIT License)")
+st.title("🎯 YouTube Sentiment Analysis (INGGRIS & INDONESIA)")
 st.write("Masukkan URL video YouTube untuk analisis komentar dan visualisasi sentimen.")
 
 # Input URL YouTube
