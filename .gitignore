@@ -1,0 +1,54 @@
+# Python cache & compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.pkl.gz
+
+# Virtual environment
+env/
+venv/
+.venv/
+ENV/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Streamlit cache
+.streamlit/
+
+# Data files (jika tidak ingin ikut terupload)
+*.csv
+*.tsv
+*.xls
+*.xlsx
+*.json
+
+# Model files & checkpoints
+*.pt
+*.pth
+*.h5
+*.ckpt
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Token atau konfigurasi rahasia
+config.json
+secret.json
+.env
