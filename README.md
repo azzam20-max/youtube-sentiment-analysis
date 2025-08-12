@@ -35,12 +35,12 @@ pip install -r requirements.txt
 streamlit run app.py
 ```
 
-##⚙️ Konfigurasi
+## ⚙️ Konfigurasi
   - Pastikan Anda memiliki koneksi internet untuk mengunduh model NLP.
   - Gunakan URL video YouTube yang dapat diakses publik.
   - Perhatikan aturan penggunaan dan ToS dari YouTube.
 
-##📚 Teknologi yang Digunakan
+## 📚 Teknologi yang Digunakan
   - Python
   - Streamlit - Apache 2.0 License
   - Pandas - BSD 3-Clause License
@@ -51,7 +51,7 @@ streamlit run app.py
   - Transformers (HuggingFace) - Apache 2.0 License
   - PyTorch - BSD-3 License
 
-##📜 Lisensi
+## 📜 Lisensi
 ```LISENSI
 Proyek ini dirilis di bawah lisensi MIT.
 Anda bebas untuk menggunakan, menyalin, memodifikasi, dan mendistribusikan proyek ini, dengan atau tanpa perubahan, selama mencantumkan kredit kepada pembuat asli.
