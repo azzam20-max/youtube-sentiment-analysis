@@ -1,63 +1,75 @@
-# 🎯 YouTube Sentiment Analysis
+# YouTube Comment Sentiment Analysis
 
-Aplikasi ini menganalisis sentimen komentar pada video YouTube menggunakan **Hugging Face Transformers** dan menampilkan hasilnya dalam bentuk tabel, grafik distribusi, dan word cloud.
+Proyek ini adalah aplikasi berbasis **Streamlit** untuk menganalisis sentimen komentar YouTube menggunakan model NLP dari **HuggingFace Transformers**.  
+Aplikasi dapat menampilkan **visualisasi WordCloud** dan grafik sentimen dari komentar yang diunduh.
 
----
+## 🚀 Fitur
+- Mengunduh komentar dari video YouTube.
+- Membersihkan dan memproses teks (Natural Language Processing).
+- Analisis sentimen menggunakan model multilingual.
+- Visualisasi:
+  - WordCloud
+  - Grafik sentimen (positif, netral, negatif)
 
-## ✨ Fitur
-- 🎥 Input URL YouTube langsung dari halaman web.
-- 🤖 Analisis sentimen komentar menggunakan model **transformers**.
-- 📊 Visualisasi distribusi sentimen (positive/negative).
-- ☁ Auto-cache model & stopwords agar lebih cepat di cloud.
-- ☁ Bisa dijalankan secara lokal atau di **Streamlit Cloud**.
+## 📦 Instalasi
 
----
+# Clone repository
+```bash
+git clone https://github.com/username/repository-name.git
+cd repository-name
+```
 
-## 📦 Persyaratan
+# Buat virtual environment (opsional)
+```bash
+python -m venv venv
+source venv/bin/activate  # MacOS/Linux
+venv\Scripts\activate     # Windows
+```
 
-Pastikan sudah menginstal:
-- Python **3.8 – 3.11**
-- pip (Python package manager)
+# Install dependencies
+```bash
+pip install -r requirements.txt
+```
+# Jalankan aplikasi
+```bash
+streamlit run app.py
+```
 
----
+⚙️ Konfigurasi
+Pastikan Anda memiliki koneksi internet untuk mengunduh model NLP.
 
-## 💻 Menjalankan Secara Lokal
+Gunakan URL video YouTube yang dapat diakses publik.
 
-1. **Clone repository**
-   ```bash
-   git clone https://github.com/username/youtube-sentiment-analysis.git
-   cd youtube-sentiment-analysis
-   ```
-2. **Buat virtual environment & aktifkan**
-    ```bash
-    python -m venv env
-    # Windows
-    env\Scripts\activate
-    # Mac/Linux
-    source env/bin/activate
-    ```
-3. **Install dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
-4. **Jalankan aplikasi**
-    ```bash
-    streamlit run app.py
-    ```
-Local URL: http://localhost:8501
+Perhatikan aturan penggunaan dan ToS dari YouTube.
 
-## ☁ Deploy ke Streamlit Cloud
-1. **Push project ke GitHub**
-   - Pastikan semua file (app.py, requirements.txt, dll) sudah ada di repo.
+📚 Teknologi yang Digunakan
+Python
 
-2. **Buka Streamlit Cloud**
-   - Login menggunakan akun GitHub.
+Streamlit - Apache 2.0 License
 
-3. **Klik "New app"**
-   - Pilih repository GitHub project.
-   - Pilih branch (misalnya main).
-   - File path: app.py
+Pandas - BSD 3-Clause License
 
-4. **Deploy**
-   - Klik tombol Deploy.
-   - Tunggu proses instalasi dan aplikasi akan langsung berjalan di cloud.
+Matplotlib - PSF License
+
+WordCloud - MIT License
+
+NLTK - Apache 2.0 License
+
+YouTube Comment Downloader - MIT License
+
+Transformers (HuggingFace) - Apache 2.0 License
+
+PyTorch - BSD-3 License
+
+📜 Lisensi
+Proyek ini dirilis di bawah lisensi MIT.
+Anda bebas untuk menggunakan, menyalin, memodifikasi, dan mendistribusikan proyek ini, dengan atau tanpa perubahan, selama mencantumkan kredit kepada pembuat asli.
+
+css
+Copy
+Edit
+MIT License
+
+Copyright (c) 2025 [Nama Anda]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy...
