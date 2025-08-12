@@ -7,7 +7,14 @@ The app provides **WordCloud visualizations** and sentiment distribution charts 
 Proyek ini adalah aplikasi berbasis **Streamlit** untuk menganalisis sentimen komentar YouTube menggunakan model NLP dari **HuggingFace Transformers**.  
 Aplikasi dapat menampilkan **visualisasi WordCloud** dan grafik sentimen dari komentar yang diunduh.
 
-## 🚀 Fitur
+## 🚀 Features
+- Download comments from YouTube videos.
+- Clean and preprocess text (Natural Language Processing).
+- Perform sentiment analysis using a multilingual model.
+- Visualizations:
+  - WordCloud
+  - Sentiment distribution chart (positive, neutral, negative)
+
 - Mengunduh komentar dari video YouTube.
 - Membersihkan dan memproses teks (Natural Language Processing).
 - Analisis sentimen menggunakan model multilingual.
@@ -15,15 +22,15 @@ Aplikasi dapat menampilkan **visualisasi WordCloud** dan grafik sentimen dari ko
   - WordCloud
   - Grafik sentimen (positif, netral, negatif)
 
-## 📦 Instalasi
+## 📦 Installation
 
-### Clone repository
+### Clone the repository
 ```bash
 git clone https://github.com/username/repository-name.git
 cd repository-name
 ```
 
-### Buat virtual environment (opsional)
+### Create a virtual environment (optional)
 ```bash
 python -m venv venv
 source venv/bin/activate  # MacOS/Linux
@@ -34,17 +41,17 @@ venv\Scripts\activate     # Windows
 ```bash
 pip install -r requirements.txt
 ```
-### Jalankan aplikasi
+### Run the application
 ```bash
 streamlit run app.py
 ```
 
-## ⚙️ Konfigurasi
+## ⚙️ Configuration
   - Pastikan Anda memiliki koneksi internet untuk mengunduh model NLP.
   - Gunakan URL video YouTube yang dapat diakses publik.
   - Perhatikan aturan penggunaan dan ToS dari YouTube.
 
-## 📚 Teknologi yang Digunakan
+## 📚 Technologies Used
   - Python
   - Streamlit - Apache 2.0 License
   - Pandas - BSD 3-Clause License
@@ -55,8 +62,11 @@ streamlit run app.py
   - Transformers (HuggingFace) - Apache 2.0 License
   - PyTorch - BSD-3 License
 
-## 📜 Lisensi
+## 📜 License
 ```LISENSI
+This project is released under the MIT License.  
+You are free to use, copy, modify, and distribute this project, with or without modification, as long as proper credit is given to the original author.
+
 Proyek ini dirilis di bawah lisensi MIT.
 Anda bebas untuk menggunakan, menyalin, memodifikasi, dan mendistribusikan proyek ini, dengan atau tanpa perubahan, selama mencantumkan kredit kepada pembuat asli.
 ```
