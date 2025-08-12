@@ -1,10 +1,11 @@
 # YouTube Comment Sentiment Analysis
 
-Proyek ini adalah aplikasi berbasis **Streamlit** untuk menganalisis sentimen komentar YouTube menggunakan model NLP dari **HuggingFace Transformers**.  
-Aplikasi dapat menampilkan **visualisasi WordCloud** dan grafik sentimen dari komentar yang diunduh.
-
 This project is a **Streamlit**-based application for analyzing the sentiment of YouTube comments using NLP models from **HuggingFace Transformers**.  
 The app provides **WordCloud visualizations** and sentiment distribution charts for the downloaded comments.
+
+
+Proyek ini adalah aplikasi berbasis **Streamlit** untuk menganalisis sentimen komentar YouTube menggunakan model NLP dari **HuggingFace Transformers**.  
+Aplikasi dapat menampilkan **visualisasi WordCloud** dan grafik sentimen dari komentar yang diunduh.
 
 ## 🚀 Fitur
 - Mengunduh komentar dari video YouTube.
